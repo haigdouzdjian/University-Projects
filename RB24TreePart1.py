@@ -3,7 +3,7 @@ sys.setrecursionlimit(1000000) # For resetting recursion limit
 
 class Node():
     def __init__(self, key, color, value):
-        self.OGSize = 0 # Andy's idea in office hours
+        self.OGSize = 0
         self.left = value
         self.right = value
         self.key = key
@@ -11,10 +11,10 @@ class Node():
         self.color = color
 
 class Part1():
-    def __init__(self): # In the book and STUDENTS/ANDY IN OFFICE HOURS WERE VERY HELPFUL.... One of the students gave me his idea of doing kthstatistic and tree size and the insert counter, brilliant!!!!!!!!!!
-        self.kthStatistic = 0 # Andy's idea in office hours
+    def __init__(self):
+        self.kthStatistic = 0
         self.root = OGSentinel
-        self.OGTreeSize = 0 # Andy's idea in office hours
+        self.OGTreeSize = 0
 
     # Left_Rotate
     def left_rotate(self, x):
@@ -82,7 +82,7 @@ class Part1():
         self.root.color = 'Black'
 
     # Insert
-    def insert(self, z): # In the book
+    def insert(self, z):
         y = OGSentinel
         x = self.root
         while x != OGSentinel:
@@ -115,13 +115,13 @@ class Part1():
         v.par = u.par
 
     # Maximum
-    def maximum(self, x): # In the book
+    def maximum(self, x):
         while x.right != OGSentinel:
             x = x.right
         return x
 
     # Minimum
-    def minimum(self, x): # In the book
+    def minimum(self, x):
         while x.left != OGSentinel:
             x = x.left
         return x
@@ -199,7 +199,7 @@ class Part1():
             self.delete_fixup(x)
 
     # Search
-    def search(self,x,k): # In the book
+    def search(self,x,k):
         if x == OGSentinel or k == x.key:
             return x
         if k < x.key:
@@ -214,7 +214,7 @@ class Part1():
             OGList.append(x.key)
             self.to_list_inorder(x.right, OGList)
 
-    def get_subtree_sizes(self, x): # Andy ran through it in office hours on the whiteboard
+    def get_subtree_sizes(self, x):
         if x != OGSentinel:
             left = self.get_subtree_sizes(x.left)
             right = self.get_subtree_sizes(x.right)
@@ -234,7 +234,7 @@ class Part1():
             res = z.OGSize
         return res
 
-    def order_statistic(self, x, k): #  # Andy ran through it in office hours on the whiteboard --- VERY HELPFUL THANK YOU!
+    def order_statistic(self, x, k):
         if x != OGSentinel:
             if self.sizeChecker(x.left, 'add') == k:
                 self.memoryStat(x)
@@ -264,22 +264,22 @@ def OGDriver():
 
             # Insert
             if "insert" in OGInput:
-                K = int(OGInput.split()[1]) # K being the input value as stated in directions
+                K = int(OGInput.split()[1]) # K being the input value
                 OGNode = Node(K, 'Red' ,OGSentinel, )
                 OGTree.insert(OGNode)
 
             # Remove
             if "remove" in OGInput:
-                K = int(OGInput.split()[1]) # K being the input value as stated in directions
+                K = int(OGInput.split()[1]) # K being the input value
                 if OGTree.search(OGTree.root, K) != OGSentinel:
                     OGNode = OGTree.search(OGTree.root, K)
                     OGTree.remove(OGNode)
                 else:
-                    print("TreeError") # As discription states
+                    print("TreeError")
 
             # Search
             if "search" in OGInput:
-                K = int(OGInput.split()[1]) # K being the input value as stated in directions
+                K = int(OGInput.split()[1]) # K being the input value
                 if OGTree.search(OGTree.root, K) != OGSentinel:
                     print("Found") # As discription states
                 else:
@@ -290,14 +290,14 @@ def OGDriver():
                 if OGTree.root != OGSentinel: # If nothing is in the searchTree
                     print(OGTree.maximum(OGTree.root).key)
                 else:
-                    print("Empty") # As discription states
+                    print("Empty")
 
             # Min
             if OGInput == "min":
                 if OGTree.root != OGSentinel: # If nothing is in the searchTree
                     print(OGTree.minimum(OGTree.root).key)
                 else:
-                    print("Empty") # As discription states
+                    print("Empty")
 
             # InPrint
             if OGInput == "inprint":
@@ -307,13 +307,13 @@ def OGDriver():
                     stringList = ' '.join(str(x) for x in OGList)
                     print(stringList)
                 else:
-                    print("Empty") # As discription states
+                    print("Empty")
 
             if "get_subtree_sizes" in OGInput:
                 OGTree.get_subtree_sizes(OGTree.root)
 
-            if "order" in OGInput: # Andy helped in office hours
-                K = int(OGInput.split()[1]) # K being the input value as stated in directions
+            if "order" in OGInput:
+                K = int(OGInput.split()[1]) # K being the input value
                 if 1 > K or OGTree.OGTreeSize < K:
                     print("TreeError")
                 else:

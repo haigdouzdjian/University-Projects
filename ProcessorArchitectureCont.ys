@@ -1,0 +1,115 @@
+  .pos 0
+
+init:
+  irmovl Stack, %ebp
+  irmovl Stack, %esp
+  call main
+  halt
+
+  .align 32
+  .align 4
+
+array:
+  .long	10
+  .long	9
+  .long	8
+  .long	7
+  .long	6
+  .long	5
+  .long	4
+  .long	3
+  .long	2
+  .long	1
+
+swap:
+  pushl %ebp
+  rrmovl %esp,%ebp
+  pushl %ebx
+  mrmovl 8(%ebp),%ecx
+  mrmovl 12(%ebp),%edx
+  mrmovl (%ecx),%eax
+  mrmovl (%edx),%ebx
+  rmmovl %ebx,(%ecx)
+  rmmovl %eax,(%edx)
+  popl %ebx
+  popl %ebp
+  ret
+
+bubbleSort:
+  pushl	%ebp
+  rrmovl %esp, %ebp
+  pushl	%edi
+  pushl	%esi
+  pushl	%ebx
+  mrmovl	8(%ebp), %edi
+  mrmovl	12(%ebp), %eax
+  irmovl 1, %ecx
+  subl %ecx, %eax
+  rrmovl %eax, %esi
+  andl	%esi, %esi
+  jle	.L1
+  rrmovl %eax, %ebx
+  addl %ebx, %ebx
+  addl %edx, %ebx
+  addl %edi, %ebx
+  pushl %edi
+  irmovl 4, %edi
+  addl %edi, %ebx
+  popl %edi
+  jmp	.L3
+
+.L5:
+  mrmovl	(%eax), %ecx
+  mrmovl	4(%eax), %edx
+  pushl %ecx
+  subl  %edx, %ecx
+  popl  %ecx
+  jle	.L4
+  rmmovl	%ecx, 4(%eax)
+  rmmovl	%edx, (%eax)
+  call swap
+
+.L4:
+  irmovl $4, %esi
+  addl	%esi, %eax
+  pushl %eax
+  subl  %ebx, %eax
+  popl  %eax
+  jne	.L5
+
+.L6:
+  irmovl $4, %edx
+  subl	%edx, %ebx
+  popl %edx
+  irmovl $1, %edx
+  subl	%edx, %esi
+  popl %edx
+  je	.L1
+
+.L3:
+  andl	%esi, %esi
+  jle	.L6
+  rrmovl	%edi, %eax
+  jmp	.L5
+
+.L1:
+  popl	%ebx
+  popl	%esi
+  popl	%edi
+  popl	%ebp
+  ret
+
+main:
+  pushl	%ebp
+  rrmovl	%esp, %ebp
+  irmovl $10, %eax
+  pushl	%eax
+  irmovl array, %eax
+  pushl	%eax
+  call	bubbleSort
+  irmovl $8, %eax
+  addl	%eax, %esp
+  halt
+  ret
+
+Stack:
